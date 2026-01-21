@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hitchhiker Frontend</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input, button { padding: 5px; margin: 5px; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>Hitchhiker Items</h1>
+
+  <form id="itemForm">
+    <input type="text" id="itemInput" placeholder="New item" required />
+    <button type="submit">Add Item</button>
+  </form>
+
+  <ul id="itemList"></ul>
+
+  <script>
+    const backendUrl = 'https://hitchhiker-backend.onrender.com'; // your Render URL
+
+    const itemForm = document.getElementById('itemForm');
+    const itemInput = document.getElementById('itemInput');
+    const itemList = document.getElementById('itemList');
+
+    // Fetch and display items
+    async function fetchItems() {
+      const res = await fetch(`${backendUrl}/items`);
+      const items = await res.json();
+      itemList.innerHTML = '';
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item.title || JSON.stringify(item);
+        itemList.appendChild(li);
+      });
+    }
+
+    // Add new item
+    itemForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const newItem = { title: itemInput.value };
+      await fetch(`${backendUrl}/items`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newItem)
+      });
+      itemInput.value = '';
+      fetchItems();
+    });
+
+    fetchItems();
+  </script>
+</body>
+</html>
