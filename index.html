@@ -12,59 +12,76 @@
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: system-ui, sans-serif;
       height: 100vh;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+    }
+
+    #sidebar {
+      padding: 12px;
+      border-right: 1px solid #ddd;
       display: flex;
       flex-direction: column;
+      gap: 10px;
     }
 
-    header {
-      padding: 10px;
-      background: #222;
-      color: white;
+    h2 {
+      margin: 0;
     }
 
-    main {
+    input, button {
+      padding: 8px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    #routes {
       flex: 1;
-      display: grid;
-      grid-template-columns: 300px 1fr;
+      overflow-y: auto;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
     }
 
-    #controls {
-      padding: 10px;
-      border-right: 1px solid #ddd;
+    .route {
+      border: 1px solid #ddd;
+      padding: 6px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .route span {
+      cursor: pointer;
+      flex: 1;
     }
 
     #map {
       height: 100%;
     }
-
-    button {
-      margin-top: 10px;
-      width: 100%;
-    }
   </style>
 </head>
 <body>
 
-<header>
+<div id="sidebar">
   <h2>Hitchhiker</h2>
-</header>
 
-<main>
-  <div id="controls">
-    <p><b>Click map to set start and end</b></p>
-    <p>1st click = Start</p>
-    <p>2nd click = End</p>
+  <input id="startInput" placeholder="Start location" />
+  <input id="endInput" placeholder="End location" />
+  <button id="createBtn">Create Route</button>
 
-    <button id="clearBtn">Clear</button>
-  </div>
+  <div id="routes"></div>
+</div>
 
-  <div id="map"></div>
-</main>
+<div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="app.js"></script>
-
 </body>
 </html>
