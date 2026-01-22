@@ -5,36 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hitchhiker Routes</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
 <body>
   <header>
-    <h1>🗺️ Hitchhiker Routes</h1>
+    <h1>Hitchhiker Routes</h1>
   </header>
 
   <main>
-    <section class="map-section">
-      <div id="map"></div>
-    </section>
+    <div id="map"></div>
 
-    <section class="routes-section">
-      <div class="create-route">
-        <input type="text" id="start" placeholder="Starting location">
-        <input type="text" id="end" placeholder="Ending location">
-        <button id="add-route">Add Route</button>
-      </div>
+    <div id="controls">
+      <input type="text" id="start" placeholder="Start location">
+      <input type="text" id="end" placeholder="End location">
+      <button id="add-route">Add Route</button>
 
-      <h2>Saved Routes</h2>
-      <ul id="routes-list">
-        <!-- Routes will be dynamically added here -->
-      </ul>
-    </section>
+      <ul id="routes-list"></ul>
+    </div>
   </main>
 
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- App JS -->
   <script type="module" src="app.js"></script>
 </body>
 </html>

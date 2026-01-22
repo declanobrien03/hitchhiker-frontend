@@ -1,104 +1,50 @@
-/* Reset & base */
-* {
-  box-sizing: border-box;
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  background: #f2f2f2;
-  color: #333;
 }
 
 header {
-  background-color: #4a90e2;
+  background: #4a90e2;
   color: white;
   padding: 1rem;
   text-align: center;
-  box-shadow: 0 3px 5px rgba(0,0,0,0.1);
 }
 
 main {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.map-section {
-  flex: 2 1 60%;
-  min-height: 500px;
+  height: calc(100vh - 70px);
 }
 
 #map {
-  height: 100%;
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  flex: 2;
 }
 
-.routes-section {
-  flex: 1 1 35%;
-  background: white;
-  border-radius: 10px;
+#controls {
+  flex: 1;
   padding: 1rem;
-  max-height: 500px;
+  background: #f4f4f4;
   overflow-y: auto;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
-.create-route {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+#controls input {
+  display: block;
+  width: 90%;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+}
+
+#controls button {
+  padding: 0.5rem 1rem;
   margin-bottom: 1rem;
-}
-
-.create-route input {
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.create-route button {
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: none;
-  background-color: #4a90e2;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.create-route button:hover {
-  background-color: #357ab8;
 }
 
 #routes-list {
   list-style: none;
+  padding-left: 0;
 }
 
 #routes-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f9f9f9;
   padding: 0.5rem;
-  border-radius: 5px;
-  margin-bottom: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-#routes-list li button {
-  border: none;
-  background: #e74c3c;
-  color: white;
-  padding: 0.3rem 0.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#routes-list li button:hover {
-  background: #c0392b;
+  border-bottom: 1px solid #ccc;
 }

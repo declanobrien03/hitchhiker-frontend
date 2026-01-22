@@ -1,22 +1,13 @@
 import L from "https://cdn.skypack.dev/leaflet";
 
-// Backend URL
 const API_URL = "https://hitchhiker-backend.onrender.com";
 
-// Initialize map
 const map = L.map("map").fitWorld();
-
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19
-}).addTo(map);
-
-// Attempt to locate user
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(map);
 map.locate({ setView: true, maxZoom: 13 });
 
-// Route list element
 const routesList = document.getElementById("routes-list");
 
-// Load routes from backend
 async function loadRoutes() {
   const res = await fetch(`${API_URL}/routes`);
   const routes = await res.json();
@@ -24,11 +15,10 @@ async function loadRoutes() {
   routes.forEach(addRouteToUI);
 }
 
-// Add route to UI
 function addRouteToUI(route) {
   const li = document.createElement("li");
   li.textContent = `${route.start.name || "Start"} → ${route.end.name || "End"}`;
-  
+
   const delBtn = document.createElement("button");
   delBtn.textContent = "Delete";
   delBtn.onclick = async () => {
@@ -39,23 +29,20 @@ function addRouteToUI(route) {
   li.appendChild(delBtn);
   routesList.appendChild(li);
 
-  // Draw on map
   if (route.start.lat && route.start.lng && route.end.lat && route.end.lng) {
-    const polyline = L.polyline([
+    L.polyline([
       [route.start.lat, route.start.lng],
       [route.end.lat, route.end.lng]
     ], { color: "blue" }).addTo(map);
   }
 }
 
-// Add route button
 document.getElementById("add-route").addEventListener("click", async () => {
   const startInput = document.getElementById("start").value;
   const endInput = document.getElementById("end").value;
 
   if (!startInput || !endInput) return alert("Please enter both start and end locations.");
 
-  // Geocode addresses with Nominatim OpenStreetMap
   const [startRes, endRes] = await Promise.all([
     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(startInput)}`),
     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endInput)}`)
@@ -89,5 +76,4 @@ document.getElementById("add-route").addEventListener("click", async () => {
   addRouteToUI(savedRoute);
 });
 
-// Load on start
 loadRoutes();
