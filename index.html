@@ -60,12 +60,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hitchhiker Map</title>
   <meta charset="utf-8" />
+  <title>Hitchhiker</title>
+
+  <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   />
+
   <style>
     body { margin: 0; }
     #map { height: 100vh; }
@@ -75,19 +78,54 @@
 
 <div id="map"></div>
 
+<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-  const map = L.map('map').setView([53.3498, -6.2603], 13); // Dublin example
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
+<script>
+  const backendUrl = "https://hitchhiker-backend.onrender.com";
+
+  const map = L.map("map").setView([53.3498, -6.2603], 13);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors"
   }).addTo(map);
 
-  // Click to add marker
-  map.on('click', e => {
+  let points = [];
+
+  async function getRoute(start, end) {
+    const url =
+      `https://router.project-osrm.org/route/v1/driving/` +
+      `${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&geometries=geojson`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.routes[0].geometry;
+  }
+
+  map.on("click", async e => {
+    points.push(e.latlng);
     L.marker(e.latlng).addTo(map);
+
+    if (points.length === 2) {
+      const route = await getRoute(points[0], points[1]);
+      L.geoJSON(route).addTo(map);
+
+      // save route
+      await fetch(`${backendUrl}/routes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          start: points[0],
+          end: points[1],
+          createdAt: Date.now()
+        })
+      });
+
+      points = [];
+    }
   });
 </script>
 
 </body>
 </html>
+
