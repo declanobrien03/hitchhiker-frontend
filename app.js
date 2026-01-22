@@ -1,21 +1,26 @@
 const backendUrl = "https://hitchhiker-backend.onrender.com";
 
-const map = L.map("map").setView([53.3498, -6.2603], 12);
+const map = L.map("map");
+
+// Default fallback
+map.setView([53.3498, -6.2603], 12);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: "© OpenStreetMap contributors"
 }).addTo(map);
 
+// Center near user
+map.locate({ setView: true, maxZoom: 13 });
+
+map.on("locationfound", e => {
+  L.circle(e.latlng, {
+    radius: e.accuracy,
+    color: "blue",
+    fillOpacity: 0.1
+  }).addTo(map);
+});
+
 let points = [];
-let layers = [];
-
-function clearMap() {
-  layers.forEach(l => map.removeLayer(l));
-  layers = [];
-  points = [];
-}
-
-document.getElementById("clearBtn").onclick = clearMap;
 
 async function getRoute(start, end) {
   const url =
@@ -27,19 +32,25 @@ async function getRoute(start, end) {
   return data.routes[0].geometry;
 }
 
+async function drawSavedRoute(route) {
+  const geometry = await getRoute(route.start, route.end);
+  L.geoJSON(geometry).addTo(map);
+}
+
+async function loadRoutes() {
+  const res = await fetch(`${backendUrl}/routes`);
+  const routes = await res.json();
+  routes.forEach(drawSavedRoute);
+}
+
 map.on("click", async e => {
   points.push(e.latlng);
-
-  const marker = L.marker(e.latlng).addTo(map);
-  layers.push(marker);
+  L.marker(e.latlng).addTo(map);
 
   if (points.length === 2) {
-    const routeGeometry = await getRoute(points[0], points[1]);
+    const geometry = await getRoute(points[0], points[1]);
+    L.geoJSON(geometry).addTo(map);
 
-    const routeLayer = L.geoJSON(routeGeometry).addTo(map);
-    layers.push(routeLayer);
-
-    // save route to backend
     await fetch(`${backendUrl}/routes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -53,3 +64,6 @@ map.on("click", async e => {
     points = [];
   }
 });
+
+// load existing routes
+loadRoutes();
