@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Hitchhiker</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hitchhiker Routes</title>
+  <link rel="stylesheet" href="style.css">
   <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
-
-  <!-- Our CSS -->
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
 <body>
+  <header>
+    <h1>🗺️ Hitchhiker Routes</h1>
+  </header>
 
-<div id="sidebar">
-  <h2>Hitchhiker</h2>
+  <main>
+    <section class="map-section">
+      <div id="map"></div>
+    </section>
 
-  <input id="startInput" placeholder="Start address" autocomplete="off" />
-  <div id="startResults" class="results"></div>
+    <section class="routes-section">
+      <div class="create-route">
+        <input type="text" id="start" placeholder="Starting location">
+        <input type="text" id="end" placeholder="Ending location">
+        <button id="add-route">Add Route</button>
+      </div>
 
-  <input id="endInput" placeholder="End address" autocomplete="off" />
-  <div id="endResults" class="results"></div>
+      <h2>Saved Routes</h2>
+      <ul id="routes-list">
+        <!-- Routes will be dynamically added here -->
+      </ul>
+    </section>
+  </main>
 
-  <button id="createBtn">Create Route</button>
-
-  <div id="routes"></div>
-</div>
-
-<div id="map"></div>
-
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<!-- Our JS -->
-<script src="js/app.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- App JS -->
+  <script type="module" src="app.js"></script>
 </body>
 </html>
