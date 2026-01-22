@@ -1,0 +1,76 @@
+/* --- Layout --- */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+}
+
+#sidebar {
+  padding: 12px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- Typography --- */
+h2 {
+  margin: 0;
+}
+
+input, button {
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* --- Autocomplete Results --- */
+.results {
+  border: 1px solid #ddd;
+  max-height: 150px;
+  overflow-y: auto;
+  background: white;
+}
+
+.result {
+  padding: 6px;
+  cursor: pointer;
+}
+
+.result:hover {
+  background: #f0f0f0;
+}
+
+/* --- Route List --- */
+#routes {
+  flex: 1;
+  overflow-y: auto;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.route {
+  border: 1px solid #ddd;
+  padding: 6px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.route span {
+  cursor: pointer;
+  flex: 1;
+}
+
+/* --- Map --- */
+#map {
+  height: 100%;
+}
